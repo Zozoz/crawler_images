@@ -13,14 +13,23 @@ from pymongo import MongoClient
 
 class MongodbImagesPipeline(object):
 
-    def __init__(self):
-        self.server = 'localhost'
-        self.port = 27017
-        self.db = 'wan'
-        self.col = 'images'
+    def __init__(self, server, port, db, collection):
+        self.server = server
+        self.port = port
+        self.db = db
+        self.col = collection
         client = MongoClient(self.server, self.port)
         db = client[self.db]
         self.collection = db[self.col]
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        settings = crawler.settings
+        server = settings.get('MONGODB_SERVER', 'localhost')
+        port = settings.get('MONGODB_PORT', 27017)
+        db = settings.get('MONGODB_DB', 'wan')
+        col = settings.get('MONGODB_COLLECTION', 'images')
+        return cls(server, port, db, col)
 
     def process_item(self, item, spider):
         if item['image_urls'] and item['image_paths']:
