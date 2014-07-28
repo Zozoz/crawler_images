@@ -11,8 +11,13 @@ DOWNLOAD_DELAY = 0
 COOKIES_ENABLED = False
 
 ITEM_PIPELINES = {
-        'crawler_images.pipelines.WanImagesPipeline': 300,
+        'crawler_images.pipelines.WanImagesPipeline': 600,
         'crawler_images.pipelines.MongodbImagesPipeline': 700,
+        }
+
+DOWNLOADER_MIDDLEWARES = {
+        'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+        'crawler_images.rotate_useragent.RotateUserAgentMiddleware': 400,
         }
 
 IMAGES_STORE = os.path.join(os.getcwd(), 'image')
