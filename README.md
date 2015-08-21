@@ -1,4 +1,4 @@
 crawler_images
 ==============
 
-python下scrapy+redis+mongodb的分布式spider.
+scrapy框架下抓取图片spider。
